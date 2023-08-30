@@ -26,8 +26,35 @@ function getData(type, cb) {
     xhr.send();
 }
 
+function getTableHeaders(obj){
+    var tableHeaders = [];
+
+    Object.keys(obj).forEach(function(key){
+        tableHeaders.push(`<td> ${key}</td>`);
+    });
+
+    return `<tr>${tableHeaders}</tr>`;
+}
+
 function writeToDocument(type) {
+    var tableRows = [];
+    var el = document.getElementById('data');
+    el.innerHTML = '';
     getData(type, function(data) {
-        document.getElementById("data").innerHTML = data;
+        data = data.results;
+        var tableHeaders = getTableHeaders(data[0]);
+
+        data.forEach(function(item){
+            var dataRow = [];
+
+            Object.keys(item).forEach(function(key){
+                var rowData = item[key].toString();
+                var truncatedData = rowData.substring(0, 15);
+                dataRow.push(`<td>${truncatedData}</td>`);
+            });
+            tableRows.push(`<tr>${dataRow}</tr>`);
+        })
+        el.innerHTML = `<table>${tableHeaders}${tableRows}</table>`;
+        // console.dir(data); // prints the details to the console
     });
 }
