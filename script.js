@@ -70,7 +70,7 @@ function writeToDocument(url) {
             tableRows.push(`<tr>${dataRow}</tr>`);
         })
         el.innerHTML = `<table>${tableHeaders}${tableRows}</table>
-        ${pagination}`;
+        ${pagination}`.replace(/,/g, '');
         // console.dir(data); // prints the details to the console
     });
 }
